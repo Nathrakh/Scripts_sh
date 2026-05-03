@@ -15,49 +15,71 @@ class PkgExplorer:
     def __init__(self):
         self.packages = {}
 
-    def run_cmd(self, cmd):
+    def run_cmd(self, cmd_list):
+        """Runs a command from a list to avoid shell overhead and argument limits."""
         try:
-            result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+            result = subprocess.run(cmd_list, capture_output=True, text=True, check=True)
             return result.stdout.strip()
         except Exception as e:
-            return str(e)
+            return ""
 
     def build_database(self):
-        """Fetches all installed packages and their details via pacman."""
-        console.print("[bold yellow]Scanning installed packages... This may take a moment...[/bold yellow]")
+        """Fetches all installed packages and their details via pacman in one go."""
+        console.print("[bold yellow]Scanning installed packages...[/bold yellow]")
         
-        # Get list of all explicitly and implicitly installed packages
-        installed_pkgs = self.run_cmd("pacman -Qq").split('\n')
+        # Get list of all installed packages
+        try:
+            installed_pkgs_raw = subprocess.run(["pacman", "-Qq"], capture_output=True, text=True, check=True).stdout.strip()
+            installed_pkgs = [pkg for pkg in installed_pkgs_raw.split('\n') if pkg]
+        except Exception as e:
+            console.print(f"[bold red]Failed to get package list: {e}[/bold red]")
+            return
+
+        # Fetch info for ALL packages in a SINGLE subprocess call
+        # Passing the list directly avoids shell string limits
+        info_raw = self.run_cmd(["pacman", "-Qi"] + installed_pkgs)
         
         data = {}
-        for pkg in installed_pkgs:
-            if not pkg: continue
-            # Get detailed info for each package
-            info_raw = self.run_cmd(f"pacman -Qi {pkg}")
+        # pacman -Qi separates packages with double newlines
+        blocks = info_raw.split('\n\n')
+        
+        for block in blocks:
+            if not block.strip():
+                continue
+                
             details = {}
-            for line in info_raw.split('\n'):
+            for line in block.split('\n'):
                 if ':' in line:
                     key, value = line.split(':', 1)
                     details[key.strip()] = value.strip()
             
-            data[pkg] = {
-                "name": pkg,
-                "desc": details.get("Description", "No description"),
-                "deps": details.get("Depends On", "None"),
-                "version": details.get("Version", "Unknown")
-            }
+            if "Name" in details:
+                pkg_name = details["Name"]
+                data[pkg_name] = {
+                    "name": pkg_name,
+                    "desc": details.get("Description", "No description"),
+                    "deps": details.get("Depends On", "None"),
+                    "version": details.get("Version", "Unknown")
+                }
         
         self.packages = data
+        
+        # Ensure cache directory exists
+        os.makedirs(os.path.dirname(CACHE_FILE), exist_ok=True)
+        
         with open(CACHE_FILE, 'w') as f:
             json.dump(data, f)
         console.print("[bold green]Database built successfully![/bold green]")
 
     def load_database(self):
-        """Loads data from cache to avoid running pacman -Qi 1000+ times every launch."""
+        """Loads data from cache to avoid rebuilding every launch."""
         if os.path.exists(CACHE_FILE):
-            with open(CACHE_FILE, 'r') as f:
-                self.packages = json.load(f)
-            return True
+            try:
+                with open(CACHE_FILE, 'r') as f:
+                    self.packages = json.load(f)
+                return True
+            except json.JSONDecodeError:
+                return False
         return False
 
     def search(self, keyword):
@@ -92,13 +114,14 @@ class PkgExplorer:
 
         console.print(table)
 
+
 def main():
     explorer = PkgExplorer()
     
     if not explorer.load_database():
         explorer.build_database()
 
-    console.print(Panel.fit("📦 [bold cyan]CachyOS Package & Dependency Explorer[/bold cyan]\n[small]Search installed packages, descriptions, and dependencies[/small]"))
+    console.print(Panel.fit("📦 [bold cyan]Arch Package & Dependency Explorer[/bold cyan]\n[small]Search installed packages, descriptions, and dependencies[/small]"))
 
     while True:
         choice = Prompt.ask(
@@ -116,6 +139,7 @@ def main():
         else:
             results = explorer.search(choice)
             explorer.display_results(results)
+
 
 if __name__ == "__main__":
     try:
