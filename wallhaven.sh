@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+# MAKE SURE TO EDIT THE $USER TO THE NAME OF YOUR USER THAT SHOWS IN YOUR TERMINAL OR RUN CMD USERS TO VIEW CURRENT LOGGED IN USER 
 DOWNLOAD_DIR="/home/$USER/Pictures/Wallpapers"
 mkdir -p "$DOWNLOAD_DIR"
 
