@@ -20,4 +20,5 @@ Feel free to edit the DIR path.
 \
 Use chmod +x to make the file an executable after creating it. 
 \
+Exit > Open new terminal to view the applied theme changes
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
