@@ -1,24 +1,34 @@
 # Scripts_sh
-Various Bash Scripts
+A collection of helpful Bash scripts.
 
-#1 wallhaven.sh 
-Uses curl to download images from wallhaven. 
-\
-Go to wallhaven > select picture > right click > copy image address > run the wallhaven script via terminal > CTRL + SHIFT + V to paste the URL > press enter > do the same process for the next image > press CTRL + D when finished. 
-\
-Make sure to edit the text of the file for the directory (DIR) you want the script to download the files to. 
-\
-Use chmod +x to make the file an executable after creating it. 
-\
-------------------------------------------------------------------------------------------------------------------------------------------------------------
-#2 ghostty-theme-switcher.sh
-Takes all the themes (currently) listed for the ghostty terminal emulator via (ghostty +list-themes)
-\
-Run the CMD above to view the themes then run the script > search for theme name > select number > enter. This script will auto-apply theme changes to (CONFIG_FILE="$HOME/.config/ghostty/config.ghostty")
-\
-Feel free to edit the DIR path. 
-\
-Use chmod +x to make the file an executable after creating it. 
-\
-Exit > Open new terminal to view the applied theme changes
-------------------------------------------------------------------------------------------------------------------------------------------------------------
+---
+
+### **1. wallhaven.sh**
+Downloads images directly from Wallhaven using `curl`.
+
+**How to use:**
+1. Go to [Wallhaven](https://wallhaven.cc) and select a picture.
+2. Right-click the image and select **Copy image address**.
+3. Run the script in your terminal: `./wallhaven.sh`.
+4. Press `CTRL + SHIFT + V` to paste the URL and hit **Enter**.
+5. Repeat for more images or press `CTRL + D` when finished.
+
+**Setup:**
+*   Edit the `DIR` variable in the script to set your preferred download folder.
+*   Make the script executable: `chmod +x wallhaven.sh`.
+
+---
+
+### **2. ghostty-theme-switcher.sh**
+Quickly browse and apply themes for the Ghostty terminal emulator.
+
+**How to use:**
+1. Run the script: `./ghostty-theme-switcher.sh`.
+2. Search for a theme name or scroll the list.
+3. Select the corresponding number and press **Enter**.
+4. Close your terminal and open a new one to see the changes.
+
+**Setup:**
+*   This script automatically updates your config at: `$HOME/.config/ghostty/config`.
+*   You can edit the `CONFIG_FILE` path inside the script if yours is located elsewhere.
+*   Make the script executable: `chmod +x ghostty-theme-switcher.sh`.
