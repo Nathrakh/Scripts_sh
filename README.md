@@ -1,34 +1,67 @@
-# Scripts_sh
-A collection of helpful Bash scripts.
+Scripts_sh
+A collection of helpful Bash and Python scripts.
 
----
+1. wallhaven.sh
+Downloads images directly from Wallhaven using curl.
 
-### **1. wallhaven.sh**
-Downloads images directly from Wallhaven using `curl`.
+How to use:
 
-**How to use:**
-1. Go to [Wallhaven](https://wallhaven.cc) and select a picture.
-2. Right-click the image and select **Copy image address**.
-3. Run the script in your terminal: `./wallhaven.sh`.
-4. Press `CTRL + SHIFT + V` to paste the URL and hit **Enter**.
-5. Repeat for more images or press `CTRL + D` when finished.
+Go to Wallhaven and select a picture.
 
-**Setup:**
-*   Edit the `DIR` variable in the script to set your preferred download folder.
-*   Make the script executable: `chmod +x wallhaven.sh`.
+Right-click the image and select Copy image address.
 
----
+Run the script: ./wallhaven.sh.
 
-### **2. ghostty-theme-switcher.sh**
+Press CTRL + SHIFT + V to paste the URL and hit Enter.
+
+Repeat for more images or press CTRL + D when finished.
+
+Setup:
+
+Edit the DIR variable in the script to set your download folder.
+
+Make the script executable: chmod +x wallhaven.sh.
+
+2. ghostty-theme-switcher.sh
 Quickly browse and apply themes for the Ghostty terminal emulator.
 
-**How to use:**
-1. Run the script: `./ghostty-theme-switcher.sh`.
-2. Search for a theme name or scroll the list.
-3. Select the corresponding number and press **Enter**.
-4. Close your terminal and open a new one to see the changes.
+How to use:
 
-**Setup:**
-*   This script automatically updates your config at: `$HOME/.config/ghostty/config`.
-*   You can edit the `CONFIG_FILE` path inside the script if yours is located elsewhere.
-*   Make the script executable: `chmod +x ghostty-theme-switcher.sh`.
+Run the script: ./ghostty-theme-switcher.sh.
+
+Search for a theme name or scroll the list.
+
+Select the number and press Enter.
+
+Open a new terminal to see the changes.
+
+Setup:
+
+Updates config at: $HOME/.config/ghostty/config.
+
+Make the script executable: chmod +x ghostty-theme-switcher.sh.
+
+3. pkg-explorer.py
+An interactive Arch Linux package explorer. Search pacman packages by name, description, or dependencies (similar to apropos).
+
+How to use:
+
+Activate your environment (e.g., source ./pkg-env/bin/activate).
+
+Run the script: python pkg-explorer.py.
+
+Enter a search term (e.g., "blender") to see the version, description, and dependencies.
+
+Setup:
+
+Create a virtual environment: python3 -m venv pkg-env.
+
+Activate it:
+
+Bash/Zsh: source ./pkg-env/bin/activate
+
+Fish: source ./pkg-env/bin/activate.fish
+
+Install the required library: pip install rich.
+
+Create pkg-explorer.py and paste the script code.
