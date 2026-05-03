@@ -49,5 +49,7 @@ A collection of helpful Bash and Python scripts.
         *   **Fish:** `source ./pkg-env/bin/activate.fish`
     3. **Install Dependencies:** `pip install rich`
     4. **Create File:** Save your code as `pkg-explorer.py`.
+ 
+<img width="1247" height="355" alt="Screenshot_20260503_170057" src="https://github.com/user-attachments/assets/01d41b93-7bbc-4c7b-ba9e-73cfa52c0ec1" />
 
 ---
