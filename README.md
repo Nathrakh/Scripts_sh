@@ -1,4 +1,4 @@
-# Scripts_sh
+# Scripts_sh / py
 A collection of helpful Bash and Python scripts.
 
 ---
